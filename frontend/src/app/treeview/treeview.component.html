@@ -1,2 +1,27 @@
-Test
-<tree-root [nodes]="nodes"></tree-root>
+<h2>TreeView of Knowledge</h2>
+
+
+<tree-root
+  [nodes]="nodes"
+  [options]="options"
+>
+  <ng-template #treeNodeTemplate let-node let-index="index">
+    <span>{{ node.data.name }}</span>
+    <button (click)="log(node)"><fa name="pencil"></fa></button>
+    <span>[{{ node.data.id }}]</span>
+  </ng-template>
+</tree-root>
+
+<button (click)="changeRootName()">Change Root Name to Yezus</button>
+
+
+<h2>TreeView of Product</h2>
+<tree-root
+  [nodes]="product"
+  [options]="options"
+>
+  <ng-template #treeNodeTemplate let-node let-index="index">
+    <span>{{ node.data.value }}</span>
+    <button (click)="log(node)"><fa name="pencil"></fa></button>
+  </ng-template>
+</tree-root>

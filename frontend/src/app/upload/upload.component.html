@@ -1,0 +1,13 @@
+<h2>Upload-Component</h2>
+{{ title }}
+<input-file-button
+  (onFileSelect)="onSelectKnowledge($event)"
+  accept="application/xml"
+  title="Choose Knowledge XML">
+</input-file-button>
+
+<input-file-button
+  (onFileSelect)="onSelectProduct($event)"
+  accept="application/xml"
+  title="Choose Product XML">
+</input-file-button>
