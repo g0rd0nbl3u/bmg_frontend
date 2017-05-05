@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-treeview',
@@ -8,109 +8,93 @@ import {Component} from "@angular/core";
 export class TreeViewComponent {
   nodes = [
     {
-      id: 1,
-      name: 'root1',
-      children: [
-        { id: 2, name: 'child1' },
-        { id: 3, name: 'child2' }
-      ]
-    },
-    {
-      id: 4,
-      name: 'root2',
-      children: [
-        { id: 5, name: 'child2.1' },
+      "id": "0",
+      "name": "Knowledge",
+      "children": [
         {
-          id: 6,
-          name: 'child2.2',
-          children: [
-            { id: 7, name: 'subsub' }
-          ]
-        }
-      ]
-    }
-  ];
-
-/*[
-    {
-      'attr': {
-        'id': '1',
-        'name': 'Kundenkanäle'
-      },
-      'node': [
-        {
-          'attr': {
-            'id': '2',
-            'name': 'Virtuell'
-          },
-          'node': [
+          "id": "1",
+          "name": "Kundenkanäle",
+          "children": [
             {
-              'attr': {
-                'id': '3',
-                'name': 'Neue Medien'
-              },
-              'node': [
+              "id": "2",
+              "name": "Virtuell",
+              "children": [
                 {
-                  'attr': {
-                    'id': '4',
-                    'name': 'Internet'
-                  },
-                  'node': [
+                  "id": "3",
+                  "name": "Neue Medien",
+                  "children": [
                     {
-                      'attr': {
-                        'id': '5',
-                        'name': 'Eigene Website'
-                      }
+                      "id": "4",
+                      "name": "Internet",
+                      "children": [
+                        {
+                          "id": "5",
+                          "name": "Eigene Website"
+                        },
+                        {
+                          "id": "6",
+                          "name": "Partner Website"
+                        },
+                        {
+                          "id": "7",
+                          "name": "Email"
+                        },
+                        {
+                          "id": "8",
+                          "name": "Chat"
+                        },
+                        {
+                          "id": "9",
+                          "name": "Forum"
+                        },
+                        {
+                          "id": "10",
+                          "name": "Videotelefon"
+                        }
+                      ]
                     },
                     {
-                      'attr': {
-                        'id': '6',
-                        'name': 'Partner Website'
-                      }
-                    },
-                    {
-                      'attr': {
-                        'id': '7',
-                        'name': 'Email'
-                      }
-                    },
-                    {
-                      'attr': {
-                        'id': '8',
-                        'name': 'Chat'
-                      }
-                    },
-                    {
-                      'attr': {
-                        'id': '9',
-                        'name': 'Forum'
-                      }
-                    },
-                    {
-                      'attr': {
-                        'id': '10',
-                        'name': 'Videotelefon'
-                      }
+                      "id": "11",
+                      "name": "App"
                     }
                   ]
-                },
-                {
-                  'attr': {
-                    'id': '11',
-                    'name': 'App'
-                  }
                 }
               ]
             }
           ]
+        },
+        {
+          "id": "30",
+          "name": "Vertriebskanäle"
         }
       ]
-    },
-    {
-      'attr': {
-        'id': '30',
-        'name': 'Vertriebskanäle'
-      }
     }
-  ];*/
+  ];
 }
+
+
+/*[
+ {
+ id: 1,
+ name: 'root1',
+ children: [
+ { id: 2, name: 'child1' },
+ { id: 3, name: 'child2' }
+ ]
+ },
+ {
+ id: 4,
+ name: 'root2',
+ children: [
+ { id: 5, name: 'child2.1' },
+ {
+ id: 6,
+ name: 'child2.2',
+ children: [
+ { id: 7, name: 'subsub' }
+ ]
+ }
+ ]
+ }
+ ];*/
+
