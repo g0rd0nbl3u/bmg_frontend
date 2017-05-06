@@ -1,0 +1,61 @@
+import {Injectable} from '@angular/core';
+import {Headers, Http} from '@angular/http';
+import 'rxjs/add/operator/toPromise';
+
+@Injectable()
+export class KnowledgeService {
+  private headers = new Headers({'Content-Type': 'application/json'});
+  private knowledgeUrl = 'http://localhost:3000/knowledge';  // URL to web api
+  constructor(private http: Http) {
+  }
+
+  getAllKnowledge(): Promise<Object[]> {
+    return this.http.get(`${this.knowledgeUrl}/getAll`)
+      .toPromise()
+      .then(response => {
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+
+  getKnowledge(id: string): Promise<Object> {
+    const url = `${this.knowledgeUrl}/get/${id}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => {
+        // console.log(response.json());
+        return response.json() as Object;
+      })
+      .catch(this.handleError);
+  }
+
+  delete(id: number): Promise<void> {
+    const url = `${this.knowledgeUrl}/delete/${id}`;
+    return this.http.delete(url, {headers: this.headers})
+      .toPromise()
+      .then(() => null)
+      .catch(this.handleError);
+  }
+
+  /*create(name: string): Promise<Knowledge> {
+    return this.http
+      .post(this.knowledgeUrl, JSON.stringify({name: name}), {headers: this.headers})
+      .toPromise()
+      .then(res => res.json().data as Knowledge)
+      .catch(this.handleError);
+  }*/
+
+  update(knowledge: Object): Promise<Object> {
+    const url = `${this.knowledgeUrl}/${knowledge}`;
+    return this.http
+      .put(url, JSON.stringify(knowledge), {headers: this.headers})
+      .toPromise()
+      .then(() => knowledge)
+      .catch(this.handleError);
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
+  }
+}

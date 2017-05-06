@@ -1,0 +1,9 @@
+<h2>{{title}}</h2>
+<ul>
+  <li *ngFor="let item of knowledge">
+      {{item.name}} - {{item.createdAt}}
+      <button (click)="setCurrentKnowledgeId(item._id)"><fa name="folder-open-o"></fa></button>
+  </li>
+</ul>
+
+<app-knowledge-treeview *ngIf="currentKnowledgeId" [knowledgeId]="currentKnowledgeId"></app-knowledge-treeview>

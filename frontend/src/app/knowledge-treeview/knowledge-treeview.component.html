@@ -1,0 +1,17 @@
+<hr>
+<h2>TreeView of Knowledge</h2>
+<tree-root
+  [nodes]="knowledgeArray"
+  [options]="options"
+>
+  <ng-template #treeNodeTemplate let-node let-index="index">
+    <span *ngIf="!node.editMode">{{ node.data.name }}</span>
+    <input type="text" class="form-control" id="name"
+           [(ngModel)]="node.data.name" name="name"
+           *ngIf="node.editMode">
+    <button *ngIf="!node.editMode" (click)="editNode(node)"><fa name="pencil"></fa></button>
+    <button *ngIf="node.editMode" (click)="editNode(node)"><fa name="check-square-o"></fa></button>
+    <span>[{{ node.data.id }}]</span>
+  </ng-template>
+</tree-root>
+

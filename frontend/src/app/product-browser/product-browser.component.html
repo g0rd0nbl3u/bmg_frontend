@@ -1,0 +1,9 @@
+<h2>{{title}}</h2>
+<ul>
+  <li *ngFor="let item of product">
+      {{item.key}} - {{item.value}} - {{item.createdAt}}
+      <button (click)="setCurrentProductId(item._id)"><fa name="folder-open-o"></fa></button>
+  </li>
+</ul>
+
+<app-product-treeview *ngIf="currentProductId" [productId]="currentProductId"></app-product-treeview>
