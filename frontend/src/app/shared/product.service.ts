@@ -43,8 +43,10 @@ export class ProductService {
    .catch(this.handleError);
    }*/
 
-  update(product: Object): Promise<Object> {
-    const url = `${this.productUrl}/${product}`;
+  update(id: string, product: Object): Promise<Object> {
+    const url = `${this.productUrl}/update/${id}`;
+    console.log('ProductArray Before transmitting:');
+    console.log(product);
     return this.http
       .put(url, JSON.stringify(product), {headers: this.headers})
       .toPromise()

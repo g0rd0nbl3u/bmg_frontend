@@ -45,8 +45,10 @@ export class KnowledgeService {
       .catch(this.handleError);
   }*/
 
-  update(knowledge: Object): Promise<Object> {
-    const url = `${this.knowledgeUrl}/${knowledge}`;
+  update(id: string, knowledge: Object): Promise<Object> {
+    const url = `${this.knowledgeUrl}/update/${id}`;
+    console.log('KnowledgeArray Before transmitting:');
+    console.log(knowledge);
     return this.http
       .put(url, JSON.stringify(knowledge), {headers: this.headers})
       .toPromise()

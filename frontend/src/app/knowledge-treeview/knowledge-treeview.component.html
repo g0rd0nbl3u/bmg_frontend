@@ -1,5 +1,7 @@
 <hr>
 <h2>TreeView of Knowledge</h2>
+<button (click)="newNode()"><fa name="plus"></fa></button>
+<button (click)="syncWithServer()"><fa name="upload"></fa></button>
 <tree-root
   [nodes]="knowledgeArray"
   [options]="options"
@@ -10,8 +12,10 @@
            [(ngModel)]="node.data.name" name="name"
            *ngIf="node.editMode">
     <button *ngIf="!node.editMode" (click)="editNode(node)"><fa name="pencil"></fa></button>
+    <button *ngIf="!node.editMode" (click)="deleteNode(node)"><fa name="trash"></fa></button>
     <button *ngIf="node.editMode" (click)="editNode(node)"><fa name="check-square-o"></fa></button>
-    <span>[{{ node.data.id }}]</span>
+    <span *ngIf="!node.editMode">{{ node.data.uuid }}</span>
+    <!--<span>[node-id: {{ node.data.uuid }}]</span>-->
   </ng-template>
 </tree-root>
 

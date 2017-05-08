@@ -1,5 +1,7 @@
 <h2>TreeView of Product</h2>
 
+<button (click)="newNode()"><fa name="plus"></fa></button>
+<button (click)="syncWithServer()"><fa name="upload"></fa></button>
 <tree-root
   [nodes]="productArray"
   [options]="options"
@@ -10,6 +12,7 @@
            [(ngModel)]="node.data.value" name="name"
             *ngIf="node.editMode">
     <button *ngIf="!node.editMode" (click)="editNode(node)"><fa name="pencil"></fa></button>
+    <button *ngIf="!node.editMode" (click)="deleteNode(node)"><fa name="trash"></fa></button>
     <button *ngIf="node.editMode" (click)="editNode(node)"><fa name="check-square-o"></fa></button>
   </ng-template>
 </tree-root>
