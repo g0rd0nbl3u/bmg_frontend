@@ -1,0 +1,66 @@
+<div *ngIf="knowledgeId">
+  <hr>
+  <h2>Block-View</h2>
+  <!--<h4>Current KnowledgeId: {{knowledgeId}}<br>
+    Current ProductId: {{productId}}</h4>-->
+  <button *ngIf="!creatingBlockMode" (click)="newBlock()">
+    <fa name="plus"></fa>
+  </button>
+  <button *ngIf="creatingBlockMode" (click)="abort()">
+    <fa name="bolt"></fa>
+  </button>
+
+
+  <table>
+    <tr>
+      <th>Category</th>
+      <th>Group</th>
+      <th>Content</th>
+      <th>Actions</th>
+    </tr>
+    <tr *ngIf="creatingBlockMode">
+      <td><input type="text" class="form-control" id="category"
+                 [(ngModel)]="tempBlockObject.category" name="category">
+      </td>
+      <td><input type="text" class="form-control" id="group"
+                 [(ngModel)]="tempBlockObject.group" name="group">
+      </td>
+      <td><input type="text" class="form-control" id="content"
+                 [(ngModel)]="tempBlockObject.content" name="content">
+      </td>
+      <td>
+        <button *ngIf="creatingBlockMode" (click)="saveBlock()">
+          <fa name="check"></fa>
+        </button>
+      </td>
+    </tr>
+    <tr *ngFor="let block of blocks">
+      <td *ngIf="editingThisBlock(block._id)">
+        <input type="text" class="form-control" id="editCategory"
+             [(ngModel)]="block.category" name="editCategory">
+      </td>
+      <td *ngIf="editingThisBlock(block._id)">
+        <input type="text" class="form-control" id="editGroup"
+               [(ngModel)]="block.group" name="editGroup">
+      </td>
+      <td *ngIf="editingThisBlock(block._id)">
+        <input type="text" class="form-control" id="editContent"
+               [(ngModel)]="block.content" name="editContent">
+      </td>
+      <td *ngIf="!editingThisBlock(block._id)">{{block.category}}</td>
+      <td *ngIf="!editingThisBlock(block._id)">{{block.group}}</td>
+      <td *ngIf="!editingThisBlock(block._id)">{{block.content}}</td>
+      <td>
+        <button *ngIf="!editingThisBlock(block._id)" (click)="editBlock(block._id)">
+          <fa name="pencil"></fa>
+        </button>
+        <button *ngIf="editingThisBlock(block._id)" (click)="updateBlock(block._id, block)">
+          <fa name="check"></fa>
+        </button>
+        <button (click)="deleteBlock(block._id)">
+          <fa name="trash"></fa>
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>

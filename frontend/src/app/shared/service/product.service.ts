@@ -1,12 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Headers, Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+import {AppCommunicationService} from "./appCommunication.service";
 
 @Injectable()
 export class ProductService {
   private headers = new Headers({'Content-Type': 'application/json'});
   private productUrl = 'http://localhost:3000/product';  // URL to web api
-  constructor(private http: Http) {
+  constructor(private http: Http,
+              private appCommunicationService: AppCommunicationService) {
   }
 
   getAllProduct(): Promise<Object[]> {
@@ -31,7 +33,10 @@ export class ProductService {
     const url = `${this.productUrl}/delete/${id}`;
     return this.http.delete(url, {headers: this.headers})
       .toPromise()
-      .then(() => null)
+      .then(() => {
+        this.appCommunicationService.announceDbChange(new Date().toDateString());
+        return null;
+      })
       .catch(this.handleError);
   }
 
@@ -50,7 +55,10 @@ export class ProductService {
     return this.http
       .put(url, JSON.stringify(product), {headers: this.headers})
       .toPromise()
-      .then(() => product)
+      .then(() => {
+        this.appCommunicationService.announceDbChange(new Date().toDateString());
+        return product;
+      })
       .catch(this.handleError);
   }
 

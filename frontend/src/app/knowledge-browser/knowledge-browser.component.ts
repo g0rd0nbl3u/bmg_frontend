@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {KnowledgeService} from '../shared/knowledge.service';
+import {KnowledgeService} from '../shared/service/knowledge.service';
 import {AppCommunicationService} from '../shared/service/appCommunication.service';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -29,6 +29,15 @@ export class KnowledgeBrowserComponent implements OnInit {
 
   setCurrentKnowledgeId(id): void {
     this.currentKnowledgeId = id;
+    this.appCommunicationService.announceChosenKnowledge(id);
+  }
+
+  deleteKnowledge(id): void {
+    if (confirm('Do you really want to delete this Knowledge?') === true) {
+      this.knowledgeService.delete(id);
+    } else {
+      console.log('Deletion cancelled!');
+    }
   }
 
   syncKnowledge() {

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductService} from '../shared/product.service';
+import {ProductService} from '../shared/service/product.service';
 import {AppCommunicationService} from '../shared/service/appCommunication.service';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -29,6 +29,7 @@ export class ProductBrowserComponent implements OnInit {
 
   setCurrentProductId(id): void {
     this.currentProductId = id;
+    this.appCommunicationService.announceChosenProduct(id);
   }
   syncProduct() {
     this.productService
@@ -36,5 +37,12 @@ export class ProductBrowserComponent implements OnInit {
       .then(product => {
         this.product = product;
       });
+  }
+  deleteProduct(id): void {
+    if (confirm('Do you really want to delete this Product?') === true) {
+      this.productService.delete(id);
+    } else {
+      console.log('Deletion cancelled!');
+    }
   }
 }

@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {KnowledgeService} from '../shared/knowledge.service';
+import {KnowledgeService} from '../shared/service/knowledge.service';
 import {TreeComponent} from 'angular-tree-component';
-import {ProductService} from '../shared/product.service';
+import {ProductService} from '../shared/service/product.service';
 import * as _ from 'lodash';
 
 @Component({

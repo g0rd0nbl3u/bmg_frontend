@@ -1,7 +1,8 @@
 import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {KnowledgeService} from '../shared/knowledge.service';
+import {KnowledgeService} from '../shared/service/knowledge.service';
 import {TreeComponent} from 'angular-tree-component';
 import * as _ from 'lodash';
+import {AppCommunicationService} from '../shared/service/appCommunication.service';
 
 @Component({
   selector: 'app-knowledge-treeview',
@@ -39,7 +40,8 @@ export class KnowledgeTreeViewComponent implements OnChanges {
     }
   }
 
-  constructor(private knowledgeService: KnowledgeService) {
+  constructor(private knowledgeService: KnowledgeService,
+              private appCommunicationService: AppCommunicationService) {
   }
 
   editNode(node) {
@@ -49,16 +51,19 @@ export class KnowledgeTreeViewComponent implements OnChanges {
       node.editMode = true;
     }
   }
+
   newNode() {
     this.knowledgeArray[0].children.push({
       name: 'Neue Knoten'
     });
     this.tree.treeModel.update();
   }
+
   deleteNode(node) {
     _.remove(node.parent.data.children, node.data);
     this.tree.treeModel.update();
   }
+
   syncWithServer() {
     const idToSync = this.knowledgeArray[0]._id;
     console.log(idToSync);
