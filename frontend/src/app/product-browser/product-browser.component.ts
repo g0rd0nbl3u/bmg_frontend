@@ -37,6 +37,7 @@ export class ProductBrowserComponent implements OnInit {
       .then(product => {
         this.product = product;
       });
+    // console.log(JSON.stringify(this.product, null, 2));
   }
   deleteProduct(id): void {
     if (confirm('Do you really want to delete this Product?') === true) {

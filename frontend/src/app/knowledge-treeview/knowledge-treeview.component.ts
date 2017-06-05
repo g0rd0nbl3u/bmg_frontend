@@ -34,6 +34,7 @@ export class KnowledgeTreeViewComponent implements OnChanges {
         .getKnowledge(this.knowledgeId)
         .then(knowledge => {
           this.knowledgeArray[0] = knowledge;
+          this.appCommunicationService.broadcastKnowledge(this.knowledgeArray[0]);
           // console.log(this.knowledgeArray);
           this.tree.treeModel.update();
         });

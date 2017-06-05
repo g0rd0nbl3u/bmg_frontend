@@ -1,21 +1,18 @@
 <div *ngIf="knowledgeId">
-  <hr>
   <h2>Block-View</h2>
   <!--<h4>Current KnowledgeId: {{knowledgeId}}<br>
     Current ProductId: {{productId}}</h4>-->
   <button *ngIf="!creatingBlockMode" (click)="newBlock()">
     <fa name="plus"></fa>
   </button>
-  <button *ngIf="creatingBlockMode" (click)="abort()">
-    <fa name="bolt"></fa>
-  </button>
-
 
   <table>
     <tr>
       <th>Category</th>
       <th>Group</th>
       <th>Content</th>
+      <th>Knowledgeholder</th>
+      <th>Productholder</th>
       <th>Actions</th>
     </tr>
     <tr *ngIf="creatingBlockMode">
@@ -25,19 +22,35 @@
       <td><input type="text" class="form-control" id="group"
                  [(ngModel)]="tempBlockObject.group" name="group">
       </td>
-      <td><input type="text" class="form-control" id="content"
-                 [(ngModel)]="tempBlockObject.content" name="content">
+      <td>
+        <input id="content"
+               [(ngModel)]="tempBlockObject.content" name="content">
+      </td>
+      <td>
+        <input id="knowledgeholder"
+               [(ngModel)]="tempBlockObject.knowledgeholder" name="knowledgeholder"
+               (treeDrop)="onDropTempKnowledge($event)"
+               [treeAllowDrop]="allowDropKnowledge.bind(this)">
+      </td>
+      <td>
+        <input id="productholder"
+               [(ngModel)]="tempBlockObject.productholder" name="productholder"
+               (treeDrop)="onDropTempProduct($event)"
+               [treeAllowDrop]="allowDropProduct.bind(this)">
       </td>
       <td>
         <button *ngIf="creatingBlockMode" (click)="saveBlock()">
           <fa name="check"></fa>
+        </button>
+        <button *ngIf="creatingBlockMode" (click)="abort()">
+          <fa name="bolt"></fa>
         </button>
       </td>
     </tr>
     <tr *ngFor="let block of blocks">
       <td *ngIf="editingThisBlock(block._id)">
         <input type="text" class="form-control" id="editCategory"
-             [(ngModel)]="block.category" name="editCategory">
+               [(ngModel)]="block.category" name="editCategory">
       </td>
       <td *ngIf="editingThisBlock(block._id)">
         <input type="text" class="form-control" id="editGroup"
@@ -47,9 +60,23 @@
         <input type="text" class="form-control" id="editContent"
                [(ngModel)]="block.content" name="editContent">
       </td>
+      <td *ngIf="editingThisBlock(block._id)">
+        <input type="text" class="form-control" id="editKnowledgeholder"
+               [(ngModel)]="block.knowledgeholder" name="editKnowledgeholder"
+               (treeDrop)="onDropEditKnowledge($event, block)"
+               [treeAllowDrop]="allowDropKnowledge.bind(this)">
+      </td>
+      <td *ngIf="editingThisBlock(block._id)">
+        <input type="text" class="form-control" id="editProductholder"
+               [(ngModel)]="block.productholder" name="editProductholder"
+               (treeDrop)="onDropEditProduct($event, block)"
+               [treeAllowDrop]="allowDropProduct.bind(this)">
+      </td>
       <td *ngIf="!editingThisBlock(block._id)">{{block.category}}</td>
       <td *ngIf="!editingThisBlock(block._id)">{{block.group}}</td>
       <td *ngIf="!editingThisBlock(block._id)">{{block.content}}</td>
+      <td *ngIf="!editingThisBlock(block._id)">{{block.knowledgeholder}}</td>
+      <td *ngIf="!editingThisBlock(block._id)">{{block.productholder}}</td>
       <td>
         <button *ngIf="!editingThisBlock(block._id)" (click)="editBlock(block._id)">
           <fa name="pencil"></fa>

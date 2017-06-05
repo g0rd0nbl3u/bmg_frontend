@@ -12,6 +12,8 @@ import {BlockService} from '../shared/service/block.service';
 export class BlockComponent {
   knowledgeId: string;
   productId: string;
+  knowledge: object;
+  product: object;
   subscription: Subscription;
   creatingBlockMode = false;
   blocks: object;
@@ -20,7 +22,9 @@ export class BlockComponent {
     knowledgeId: null,
     category: null,
     group: null,
-    content: null
+    content: null,
+    knowledgeholder: null,
+    productholder: null
   };
 
   constructor(private appCommunicationService: AppCommunicationService,
@@ -40,6 +44,14 @@ export class BlockComponent {
       change => {
         this.syncBlocks();
       });
+    this.subscription = appCommunicationService.broadcastKnowledge$.subscribe(
+      knowledge => {
+        this.knowledge = knowledge;
+      });
+    this.subscription = appCommunicationService.broadcastProduct$.subscribe(
+      product => {
+        this.product = product;
+      });
   }
 
   newBlock() {
@@ -56,7 +68,9 @@ export class BlockComponent {
       knowledgeId: null,
       category: null,
       group: null,
-      content: null
+      content: null,
+      knowledgeholder: null,
+      productholder: null
     };
   }
 
@@ -67,7 +81,9 @@ export class BlockComponent {
         knowledgeId: this.knowledgeId,
         category: tmp.category,
         group: tmp.group,
-        content: tmp.content
+        content: tmp.content,
+        knowledgeholder: tmp.knowledgeholder,
+        productholder: tmp.productholder
       }).then(res => {
         this.syncBlocks();
       });
@@ -83,7 +99,6 @@ export class BlockComponent {
       .getBlocksForKnowledge(this.knowledgeId)
       .then(blocks => {
         this.blocks = blocks;
-        console.log(blocks);
       });
   }
 
@@ -96,8 +111,6 @@ export class BlockComponent {
   }
 
   updateBlock(id: string, block: object) {
-    console.log('Guck hier');
-    console.log(block);
     this.blockService.update(id, block);
     this.blockInProgress = null;
   }
@@ -110,6 +123,59 @@ export class BlockComponent {
     if (this.blockInProgress === id) {
       return true;
     }
+  }
+
+  onDropTempKnowledge($event) {
+    const uuid = $event.element.data.uuid;
+    if (this.tempBlockObject.knowledgeholder == null) {
+      this.tempBlockObject.knowledgeholder = uuid;
+    } else {
+      this.tempBlockObject.knowledgeholder = this.tempBlockObject.knowledgeholder + ' ' + uuid;
+    }
+    console.log($event);
+  }
+
+  onDropTempProduct($event) {
+    const path = this.buildProductPath($event.element);
+    if (this.tempBlockObject.productholder == null) {
+      this.tempBlockObject.productholder = path;
+    } else {
+      this.tempBlockObject.productholder = this.tempBlockObject.productholder + ' ' + path;
+    }
+    console.log($event);
+  }
+
+  onDropEditKnowledge($event, block) {
+    const uuid = $event.element.data.uuid;
+    if (block.knowledgeholder == null) {
+      block.knowledgeholder = uuid;
+    } else {
+      block.knowledgeholder = block.knowledgeholder + ' ' + uuid;
+    }
+  }
+
+  onDropEditProduct($event, block) {
+    const path = this.buildProductPath($event.element);
+    // console.log(block.productholder);
+    if (block.productholder == null) {
+      block.productholder = path;
+    } else {
+      block.productholder = block.productholder + ' ' + path;
+    }
+  }
+
+  buildProductPath(input) {
+    return input.data.key + '/' + input.parent.data.value + '/' + input.parent.parent.data.value;
+  }
+
+  allowDropKnowledge(element) {
+    return true;
+    // Return true/false based on element
+  }
+
+  allowDropProduct(element) {
+    return true;
+    // Return true/false based on element
   }
 
   private handleError(error: any): Promise<any> {

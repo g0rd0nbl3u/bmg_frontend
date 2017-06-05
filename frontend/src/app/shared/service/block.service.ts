@@ -69,7 +69,6 @@ export class BlockService {
 
   update(id: string, block: Object): Promise<Object> {
     const url = `${this.blockUrl}/update/${id}`;
-    console.log(JSON.stringify(block));
     return this.http
       .put(url, JSON.stringify(block), {headers: this.headers})
       .toPromise()
