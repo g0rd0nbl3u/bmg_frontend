@@ -13,3 +13,24 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+.knowledgeSpan {
+  color:white;
+  background:black;
+  padding:7px;
+  border-radius:2px;
+  margin:5px 5px 5px 0px;
+}
+
+.editKnowledgeSpan {
+  border-style: dashed;
+  border-width: 1px;
+}
+
+.productSpan {
+  color:white;
+  background:black;
+  padding:7px;
+  border-radius:2px;
+  margin:5px 5px 5px 0px;
+}

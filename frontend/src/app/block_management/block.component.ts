@@ -16,15 +16,15 @@ export class BlockComponent {
   product: object;
   subscription: Subscription;
   creatingBlockMode = false;
-  blocks: object;
+  blocks: Array<object>;
   blockInProgress = [];
   tempBlockObject = {
     knowledgeId: null,
     category: null,
     group: null,
     content: null,
-    knowledgeholder: null,
-    productholder: null
+    knowledgeholder: [],
+    productholder: []
   };
 
   constructor(private appCommunicationService: AppCommunicationService,
@@ -69,8 +69,8 @@ export class BlockComponent {
       category: null,
       group: null,
       content: null,
-      knowledgeholder: null,
-      productholder: null
+      knowledgeholder: [],
+      productholder: []
     };
   }
 
@@ -126,46 +126,44 @@ export class BlockComponent {
   }
 
   onDropTempKnowledge($event) {
-    const uuid = $event.element.data.uuid;
-    if (this.tempBlockObject.knowledgeholder == null) {
-      this.tempBlockObject.knowledgeholder = uuid;
+    if (this.tempBlockObject.knowledgeholder.length === 0) {
+      this.tempBlockObject.knowledgeholder[0] = $event.element.data;
     } else {
-      this.tempBlockObject.knowledgeholder = this.tempBlockObject.knowledgeholder + ' ' + uuid;
+      this.tempBlockObject.knowledgeholder.push($event.element.data);
     }
-    console.log($event);
+    // console.log(this.tempBlockObject.knowledgeholder);
   }
 
   onDropTempProduct($event) {
-    const path = this.buildProductPath($event.element);
-    if (this.tempBlockObject.productholder == null) {
-      this.tempBlockObject.productholder = path;
+    if (this.tempBlockObject.productholder.length === 0) {
+      this.tempBlockObject.productholder[0] = $event.element.data;
     } else {
-      this.tempBlockObject.productholder = this.tempBlockObject.productholder + ' ' + path;
+      this.tempBlockObject.productholder.push($event.element.data);
     }
     console.log($event);
   }
 
   onDropEditKnowledge($event, block) {
-    const uuid = $event.element.data.uuid;
-    if (block.knowledgeholder == null) {
-      block.knowledgeholder = uuid;
-    } else {
-      block.knowledgeholder = block.knowledgeholder + ' ' + uuid;
+    if (!block.knowledgeholder) {
+      block.knowledgeholder = [];
     }
+    if (block.knowledgeholder.length === 0) {
+      block.knowledgeholder[0] = $event.element.data;
+    } else {
+      block.knowledgeholder.push($event.element.data);
+    }
+    console.log('called?');
   }
 
   onDropEditProduct($event, block) {
-    const path = this.buildProductPath($event.element);
-    // console.log(block.productholder);
-    if (block.productholder == null) {
-      block.productholder = path;
-    } else {
-      block.productholder = block.productholder + ' ' + path;
+    if (!block.productholder) {
+      block.productholder = [];
     }
-  }
-
-  buildProductPath(input) {
-    return input.data.key + '/' + input.parent.data.value + '/' + input.parent.parent.data.value;
+    if (block.productholder.length === 0) {
+      block.productholder[0] = $event.element.data;
+    } else {
+      block.productholder.push($event.element.data);
+    }
   }
 
   allowDropKnowledge(element) {
@@ -181,5 +179,11 @@ export class BlockComponent {
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
+  }
+
+  // TODO
+  deleteFromKnowledgeholder(element, holder) {
+    console.log(holder.indexOf(element));
+    holder.splice(holder.indexOf(element), 1);
   }
 }

@@ -11,10 +11,13 @@
       <th>Category</th>
       <th>Group</th>
       <th>Content</th>
-      <th>Knowledgeholder</th>
+      <th>Knowledgeholder
+      </th>
       <th>Productholder</th>
       <th>Actions</th>
     </tr>
+
+    <!-- BLOCK CREATION -->
     <tr *ngIf="creatingBlockMode">
       <td><input type="text" class="form-control" id="category"
                  [(ngModel)]="tempBlockObject.category" name="category">
@@ -26,17 +29,33 @@
         <input id="content"
                [(ngModel)]="tempBlockObject.content" name="content">
       </td>
-      <td>
-        <input id="knowledgeholder"
-               [(ngModel)]="tempBlockObject.knowledgeholder" name="knowledgeholder"
-               (treeDrop)="onDropTempKnowledge($event)"
-               [treeAllowDrop]="allowDropKnowledge.bind(this)">
+      <td
+        (treeDrop)="onDropTempKnowledge($event)"
+        [treeAllowDrop]="allowDropKnowledge.bind(this)">
+        <div id="tempKnowledgeholder">
+          <span
+            *ngFor="let k of tempBlockObject.knowledgeholder"
+            class="knowledgeSpan">
+            {{k.name}}
+            <button (click)="deleteFromKnowledgeholder(k, tempBlockObject.knowledgeholder)">
+          <fa name="close"></fa>
+        </button>
+          </span>
+        </div>
       </td>
-      <td>
-        <input id="productholder"
-               [(ngModel)]="tempBlockObject.productholder" name="productholder"
-               (treeDrop)="onDropTempProduct($event)"
-               [treeAllowDrop]="allowDropProduct.bind(this)">
+      <td
+        (treeDrop)="onDropTempProduct($event)"
+        [treeAllowDrop]="allowDropKnowledge.bind(this)">
+        <div id="tempProductholder">
+          <span
+            *ngFor="let p of tempBlockObject.productholder"
+            class="productSpan">
+            {{p.value}}
+            <button (click)="deleteFromKnowledgeholder(p, tempBlockObject.productholder)">
+            <fa name="close"></fa>
+          </button>
+          </span>
+        </div>
       </td>
       <td>
         <button *ngIf="creatingBlockMode" (click)="saveBlock()">
@@ -47,6 +66,8 @@
         </button>
       </td>
     </tr>
+
+    <!-- BLOCK EDITING -->
     <tr *ngFor="let block of blocks">
       <td *ngIf="editingThisBlock(block._id)">
         <input type="text" class="form-control" id="editCategory"
@@ -60,23 +81,59 @@
         <input type="text" class="form-control" id="editContent"
                [(ngModel)]="block.content" name="editContent">
       </td>
-      <td *ngIf="editingThisBlock(block._id)">
-        <input type="text" class="form-control" id="editKnowledgeholder"
-               [(ngModel)]="block.knowledgeholder" name="editKnowledgeholder"
-               (treeDrop)="onDropEditKnowledge($event, block)"
-               [treeAllowDrop]="allowDropKnowledge.bind(this)">
+      <td *ngIf="editingThisBlock(block._id)"
+          (treeDrop)="onDropEditKnowledge($event, block)"
+          [treeAllowDrop]="allowDropKnowledge.bind(this)">
+        <div id="editKnowledgeholder">
+          <span
+            *ngFor="let k of block.knowledgeholder"
+            class="knowledgeSpan editKnowledgeSpan">
+            {{k.name}}
+            <button (click)="deleteFromKnowledgeholder(k, block.knowledgeholder)">
+          <fa name="close"></fa>
+        </button>
+          </span>
+        </div>
       </td>
-      <td *ngIf="editingThisBlock(block._id)">
-        <input type="text" class="form-control" id="editProductholder"
-               [(ngModel)]="block.productholder" name="editProductholder"
-               (treeDrop)="onDropEditProduct($event, block)"
-               [treeAllowDrop]="allowDropProduct.bind(this)">
+      <td *ngIf="editingThisBlock(block._id)"
+          (treeDrop)="onDropEditProduct($event, block)"
+          [treeAllowDrop]="allowDropKnowledge.bind(this)">
+        <div id="editProductholder">
+          <span
+            *ngFor="let p of block.productholder"
+            class="productSpan editProductSpan">
+            {{p.value}}
+            <button (click)="deleteFromKnowledgeholder(p, block.productholder)">
+          <fa name="close"></fa>
+        </button>
+          </span>
+        </div>
+
       </td>
+
+
+      <!-- BLOCK PRESENTATION -->
       <td *ngIf="!editingThisBlock(block._id)">{{block.category}}</td>
       <td *ngIf="!editingThisBlock(block._id)">{{block.group}}</td>
       <td *ngIf="!editingThisBlock(block._id)">{{block.content}}</td>
-      <td *ngIf="!editingThisBlock(block._id)">{{block.knowledgeholder}}</td>
-      <td *ngIf="!editingThisBlock(block._id)">{{block.productholder}}</td>
+      <td *ngIf="!editingThisBlock(block._id)">
+        <div id="knowledgeholder">
+          <span
+            *ngFor="let k of block.knowledgeholder"
+            class="knowledgeSpan">
+            {{k.name}}
+          </span>
+        </div>
+      </td>
+      <td *ngIf="!editingThisBlock(block._id)">
+        <div id="productholder">
+          <span
+            *ngFor="let p of block.productholder"
+            class="productSpan">
+            {{p.value}}
+          </span>
+        </div>
+      </td>
       <td>
         <button *ngIf="!editingThisBlock(block._id)" (click)="editBlock(block._id)">
           <fa name="pencil"></fa>

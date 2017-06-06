@@ -31,7 +31,7 @@ export class BlockService {
       .catch(this.handleError);
   }
 
-  getBlocksForKnowledge(id: string): Promise<Object> {
+  getBlocksForKnowledge(id: string): Promise<Array<Object>> {
     const url = `${this.blockUrl}/getForKnowledge/${id}`;
     return this.http.get(url)
       .toPromise()
