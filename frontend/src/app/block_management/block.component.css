@@ -15,11 +15,14 @@ tr:nth-child(even) {
 }
 
 .knowledgeSpan {
+  display:block;
+  text-align:center;
   color:white;
   background:black;
-  padding:7px;
+  padding:5px;
   border-radius:2px;
-  margin:5px 5px 5px 0px;
+  margin:10px;
+  font-size:10px;
 }
 
 .editKnowledgeSpan {
@@ -28,9 +31,12 @@ tr:nth-child(even) {
 }
 
 .productSpan {
+  display:block;
+  text-align:center;
   color:white;
   background:black;
   padding:7px;
   border-radius:2px;
   margin:5px 5px 5px 0px;
+  font-size:10px;
 }

@@ -1,26 +1,32 @@
-<h3>TreeView of Knowledge</h3>
-<button (click)="newNode()">
+<hr>
+<h4>TreeView of Knowledge</h4>
+<button type="button" class="btn btn-sm btn-outline-default" (click)="newNode()">
   <fa name="plus"></fa>
 </button>
-<button (click)="syncWithServer()">
+<button type="button" class="btn btn-sm btn-outline-default" (click)="syncWithServer()">
   <fa name="upload"></fa>
 </button>
 <tree-root
   [nodes]="knowledgeArray"
   [options]="options"
+  (onFocus)="showTools($event)"
+  (onBlur)="hideTools($event)"
 >
   <ng-template #treeNodeTemplate let-node let-index="index">
+
     <span *ngIf="!node.editMode">{{ node.data.name }}</span>
     <input type="text" class="form-control" id="name"
            [(ngModel)]="node.data.name" name="name"
            *ngIf="node.editMode">
-    <button *ngIf="!node.editMode" (click)="editNode(node)">
+    <button type="button" class="btn btn-sm btn-outline-default" *ngIf="!node.editMode && node.showTools"
+            (click)="editNode(node)">
       <fa name="pencil"></fa>
     </button>
-    <button *ngIf="!node.editMode" (click)="deleteNode(node)">
+    <button type="button" class="btn btn-sm btn-outline-default" *ngIf="!node.editMode && node.showTools"
+            (click)="deleteNode(node)">
       <fa name="trash"></fa>
     </button>
-    <button *ngIf="node.editMode" (click)="editNode(node)">
+    <button type="button" class="btn btn-sm btn-outline-default" *ngIf="node.editMode" (click)="editNode(node)">
       <fa name="check-square-o"></fa>
     </button>
     <!--<span *ngIf="!node.editMode">{{ node.data.uuid }}</span>-->

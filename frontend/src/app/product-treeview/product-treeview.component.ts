@@ -61,8 +61,12 @@ export class ProductTreeViewComponent implements OnChanges {
   }
 
   deleteNode(node) {
-    _.remove(node.parent.data.children, node.data);
-    this.tree.treeModel.update();
+    if (confirm('Do you really want to delete this Node?') === true) {
+      _.remove(node.parent.data.children, node.data);
+      this.tree.treeModel.update();
+    } else {
+      console.log('Deletion cancelled!');
+    }
   }
 
   syncWithServer() {
@@ -70,5 +74,11 @@ export class ProductTreeViewComponent implements OnChanges {
     console.log(idToSync);
     this.productService.update(idToSync, this.productArray[0]);
     console.log('Should be syncing now.');
+  }
+  showTools(event) {
+    event.node.showTools = true;
+  }
+  hideTools(event) {
+    event.node.showTools = false;
   }
 }

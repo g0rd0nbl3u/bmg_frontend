@@ -1,11 +1,13 @@
 <div *ngIf="knowledgeId">
+  <hr>
   <h2>Block-View</h2>
   <!--<h4>Current KnowledgeId: {{knowledgeId}}<br>
     Current ProductId: {{productId}}</h4>-->
   <button *ngIf="!creatingBlockMode" (click)="newBlock()">
+    <span>New Block </span>
     <fa name="plus"></fa>
   </button>
-
+  <br>
   <table>
     <tr>
       <th>Category</th>
@@ -19,8 +21,10 @@
 
     <!-- BLOCK CREATION -->
     <tr *ngIf="creatingBlockMode">
-      <td><input type="text" class="form-control" id="category"
-                 [(ngModel)]="tempBlockObject.category" name="category">
+      <td>
+        <select class="form-control" [(ngModel)]="tempBlockObject.category">
+          <option *ngFor="let c of categories">{{c}}</option>
+        </select>
       </td>
       <td><input type="text" class="form-control" id="group"
                  [(ngModel)]="tempBlockObject.group" name="group">
@@ -36,10 +40,16 @@
           <span
             *ngFor="let k of tempBlockObject.knowledgeholder"
             class="knowledgeSpan">
-            {{k.name}}
-            <button (click)="deleteFromKnowledgeholder(k, tempBlockObject.knowledgeholder)">
-          <fa name="close"></fa>
-        </button>
+            <p style="display:inline">{{k.name}}</p>
+            <select style="display: inline; width: 60px" class="form-control form-control-sm" [(ngModel)]="k.depth">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+            </select>
+            <button style="display:inline-block" type="button" class="btn btn-sm btn-outline-danger"
+                    (click)="deleteFromKnowledgeholder(k, tempBlockObject.knowledgeholder)">
+              <fa name="close"></fa>
+            </button>
           </span>
         </div>
       </td>
@@ -50,8 +60,9 @@
           <span
             *ngFor="let p of tempBlockObject.productholder"
             class="productSpan">
-            {{p.value}}
-            <button (click)="deleteFromKnowledgeholder(p, tempBlockObject.productholder)">
+            {{p.key}}
+            <button type="button" class="btn btn-sm btn-outline-danger"
+                    (click)="deleteFromKnowledgeholder(p, tempBlockObject.productholder)">
             <fa name="close"></fa>
           </button>
           </span>
@@ -70,8 +81,9 @@
     <!-- BLOCK EDITING -->
     <tr *ngFor="let block of blocks">
       <td *ngIf="editingThisBlock(block._id)">
-        <input type="text" class="form-control" id="editCategory"
-               [(ngModel)]="block.category" name="editCategory">
+        <select class="form-control" [(ngModel)]="block.category">
+          <option *ngFor="let c of categories">{{c}}</option>
+        </select>
       </td>
       <td *ngIf="editingThisBlock(block._id)">
         <input type="text" class="form-control" id="editGroup"
@@ -88,8 +100,14 @@
           <span
             *ngFor="let k of block.knowledgeholder"
             class="knowledgeSpan editKnowledgeSpan">
-            {{k.name}}
-            <button (click)="deleteFromKnowledgeholder(k, block.knowledgeholder)">
+            <p style="display:inline-block">{{k.name}}</p>
+            <select style="display:inline-block; width: 60px" class="form-control form-control-sm" [(ngModel)]="k.depth">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+            </select>
+            <button type="button" class="btn btn-sm btn-outline-danger"
+                    (click)="deleteFromKnowledgeholder(k, block.knowledgeholder)">
           <fa name="close"></fa>
         </button>
           </span>
@@ -102,15 +120,14 @@
           <span
             *ngFor="let p of block.productholder"
             class="productSpan editProductSpan">
-            {{p.value}}
-            <button (click)="deleteFromKnowledgeholder(p, block.productholder)">
+            {{p.key}}
+            <button type="button" class="btn btn-sm btn-outline-danger"
+                    (click)="deleteFromKnowledgeholder(p, block.productholder)">
           <fa name="close"></fa>
         </button>
           </span>
         </div>
-
       </td>
-
 
       <!-- BLOCK PRESENTATION -->
       <td *ngIf="!editingThisBlock(block._id)">{{block.category}}</td>
@@ -121,7 +138,7 @@
           <span
             *ngFor="let k of block.knowledgeholder"
             class="knowledgeSpan">
-            {{k.name}}
+            {{k.name}} - {{k.depth}}
           </span>
         </div>
       </td>
@@ -129,8 +146,8 @@
         <div id="productholder">
           <span
             *ngFor="let p of block.productholder"
-            class="productSpan">
-            {{p.value}}
+            class="productSpan" (click)="logMe(p)">
+            {{p.key}}
           </span>
         </div>
       </td>

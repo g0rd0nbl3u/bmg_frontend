@@ -11,6 +11,7 @@ import {BlockService} from '../shared/service/block.service';
 })
 export class BlockComponent {
   knowledgeId: string;
+  categories: Array<string>;
   productId: string;
   knowledge: object;
   product: object;
@@ -47,6 +48,7 @@ export class BlockComponent {
     this.subscription = appCommunicationService.broadcastKnowledge$.subscribe(
       knowledge => {
         this.knowledge = knowledge;
+        this.updateCategories(knowledge);
       });
     this.subscription = appCommunicationService.broadcastProduct$.subscribe(
       product => {
@@ -185,5 +187,20 @@ export class BlockComponent {
   deleteFromKnowledgeholder(element, holder) {
     console.log(holder.indexOf(element));
     holder.splice(holder.indexOf(element), 1);
+  }
+
+  logMe(p) {
+    console.log(p);
+  }
+
+  updateCategories(knowledge) {
+    console.log('update cat');
+    console.log(knowledge.children.length);
+    const numCats = knowledge.children.length;
+    this.categories = [];
+    for (let i = 0; i < numCats; i++) {
+      this.categories.push(knowledge.children[i].name);
+    }
+    console.log(this.categories);
   }
 }

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, ViewChild} from '@angular/core';
 import {KnowledgeService} from '../shared/service/knowledge.service';
 import {TreeComponent} from 'angular-tree-component';
 import * as _ from 'lodash';
@@ -61,8 +61,12 @@ export class KnowledgeTreeViewComponent implements OnChanges {
   }
 
   deleteNode(node) {
-    _.remove(node.parent.data.children, node.data);
-    this.tree.treeModel.update();
+    if (confirm('Do you really want to delete this Node?') === true) {
+      _.remove(node.parent.data.children, node.data);
+      this.tree.treeModel.update();
+    } else {
+      console.log('Deletion cancelled!');
+    }
   }
 
   syncWithServer() {
@@ -70,5 +74,11 @@ export class KnowledgeTreeViewComponent implements OnChanges {
     console.log(idToSync);
     this.knowledgeService.update(idToSync, this.knowledgeArray[0]);
     console.log('Should be syncing now.');
+  }
+  showTools(event) {
+    event.node.showTools = true;
+  }
+  hideTools(event) {
+    event.node.showTools = false;
   }
 }

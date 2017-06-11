@@ -1,18 +1,24 @@
+<hr>
 <h3>TreeView of Product</h3>
 
-<button (click)="newNode()"><fa name="plus"></fa></button>
-<button (click)="syncWithServer()"><fa name="upload"></fa></button>
+<button type="button" class="btn btn-sm btn-outline-default" (click)="newNode()"><fa name="plus"></fa></button>
+<button type="button" class="btn btn-sm btn-outline-default" (click)="syncWithServer()"><fa name="upload"></fa></button>
 <tree-root
   [nodes]="productArray"
   [options]="options"
+  (onFocus)="showTools($event)"
+  (onBlur)="hideTools($event)"
 >
   <ng-template #treeNodeTemplate let-node let-index="index">
-    <span *ngIf="!node.editMode">{{ node.data.value }}</span>
-    <input type="text" class="form-control" id="name"
-           [(ngModel)]="node.data.value" name="name"
+    <span *ngIf="!node.editMode">{{ node.data.key }} - {{ node.data.value }}</span>
+    <input type="text" class="form-control" id="key"
+           [(ngModel)]="node.data.key" name="key"
             *ngIf="node.editMode">
-    <button *ngIf="!node.editMode" (click)="editNode(node)"><fa name="pencil"></fa></button>
-    <button *ngIf="!node.editMode" (click)="deleteNode(node)"><fa name="trash"></fa></button>
-    <button *ngIf="node.editMode" (click)="editNode(node)"><fa name="check-square-o"></fa></button>
+    <input type="text" class="form-control" id="value"
+           [(ngModel)]="node.data.value" name="value"
+           *ngIf="node.editMode">
+    <button type="button" class="btn btn-sm btn-outline-default" *ngIf="!node.editMode && node.showTools" (click)="editNode(node)"><fa name="pencil"></fa></button>
+    <button type="button" class="btn btn-sm btn-outline-default" *ngIf="!node.editMode && node.showTools" (click)="deleteNode(node)"><fa name="trash"></fa></button>
+    <button type="button" class="btn btn-sm btn-outline-default" *ngIf="node.editMode" (click)="editNode(node)"><fa name="check-square-o"></fa></button>
   </ng-template>
 </tree-root>
