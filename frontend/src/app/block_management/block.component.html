@@ -1,6 +1,14 @@
 <div *ngIf="knowledgeId">
   <hr>
   <h2>Block-View</h2>
+
+  <!-- TODO -->
+  <!-- Filter Category --> <!--
+  <select class="form-control" [(ngModel)]="showCategory">
+    <option *ngFor="let c of categories">{{c}}</option>
+  </select>
+  -->
+
   <!--<h4>Current KnowledgeId: {{knowledgeId}}<br>
     Current ProductId: {{productId}}</h4>-->
   <button *ngIf="!creatingBlockMode" (click)="newBlock()">
@@ -8,7 +16,7 @@
     <fa name="plus"></fa>
   </button>
   <br>
-  <table>
+  <table class="table">
     <tr>
       <th>Category</th>
       <th>Group</th>
@@ -97,35 +105,36 @@
           (treeDrop)="onDropEditKnowledge($event, block)"
           [treeAllowDrop]="allowDropKnowledge.bind(this)">
         <div id="editKnowledgeholder">
-          <span
-            *ngFor="let k of block.knowledgeholder"
-            class="knowledgeSpan editKnowledgeSpan">
-            <p style="display:inline-block">{{k.name}}</p>
-            <select style="display:inline-block; width: 60px" class="form-control form-control-sm" [(ngModel)]="k.depth">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-            </select>
-            <button type="button" class="btn btn-sm btn-outline-danger"
-                    (click)="deleteFromKnowledgeholder(k, block.knowledgeholder)">
-          <fa name="close"></fa>
-        </button>
-          </span>
+            <span
+              *ngFor="let k of block.knowledgeholder"
+              class="knowledgeSpan editKnowledgeSpan">
+              <p style="display:inline-block">{{k.name}}</p>
+              <select style="display:inline-block; width: 60px" class="form-control form-control-sm"
+                      [(ngModel)]="k.depth">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+              </select>
+              <button type="button" class="btn btn-sm btn-outline-danger"
+                      (click)="deleteFromKnowledgeholder(k, block.knowledgeholder)">
+            <fa name="close"></fa>
+          </button>
+            </span>
         </div>
       </td>
       <td *ngIf="editingThisBlock(block._id)"
           (treeDrop)="onDropEditProduct($event, block)"
           [treeAllowDrop]="allowDropKnowledge.bind(this)">
         <div id="editProductholder">
-          <span
-            *ngFor="let p of block.productholder"
-            class="productSpan editProductSpan">
-            {{p.key}}
-            <button type="button" class="btn btn-sm btn-outline-danger"
-                    (click)="deleteFromKnowledgeholder(p, block.productholder)">
-          <fa name="close"></fa>
-        </button>
-          </span>
+            <span
+              *ngFor="let p of block.productholder"
+              class="productSpan editProductSpan">
+              {{p.key}}
+              <button type="button" class="btn btn-sm btn-outline-danger"
+                      (click)="deleteFromKnowledgeholder(p, block.productholder)">
+            <fa name="close"></fa>
+          </button>
+            </span>
         </div>
       </td>
 
@@ -138,7 +147,7 @@
           <span
             *ngFor="let k of block.knowledgeholder"
             class="knowledgeSpan">
-            {{k.name}} - {{k.depth}}
+            {{k.name}} / {{k.depth}}
           </span>
         </div>
       </td>

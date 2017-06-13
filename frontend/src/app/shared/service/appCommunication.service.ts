@@ -34,16 +34,16 @@ export class AppCommunicationService {
   }
 
   announceBlockChanged(change: string) {
-    console.log('Communicator announces Block Change');
+    // console.log('Communicator announces Block Change');
     this.blockChangeAnnouncementSource.next(change);
   }
 
   broadcastKnowledge(knowledge: object) {
-    console.log('Communicator broadcasts knowledge');
+    // console.log('Communicator broadcasts knowledge');
     this.broadcastKnowledgeSource.next(knowledge);
   }
   broadcastProduct(product: object) {
-    console.log('Communicator broadcasts product');
+    // console.log('Communicator broadcasts product');
     this.broadcastProductSource.next(product);
   }
 }

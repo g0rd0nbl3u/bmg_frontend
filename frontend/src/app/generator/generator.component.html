@@ -1,4 +1,78 @@
 <div *ngIf="blocks">
-  <h4>Configure Generator</h4>
+  <h4>Generator</h4>
+  <h5>Example BM</h5>
+  <button (click)="generateBM(blocks, knowledge, product, categories)">
+    Generate BM
+  </button>
+  <div class="container-fluid">
+    <div class="row" *ngFor="let bm of bmArray">
+      <span [innerHTML]="bm"></span>
+    </div>
+  </div>
+  <hr>
+  <h5>Crowdflower Config</h5>
 
+  <div *ngIf="!configChosen">
+    <button *ngIf="!creatingConfigMode" (click)="newConfig()">
+      <span>New Config </span>
+      <fa name="plus"></fa>
+    </button>
+
+
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Key</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+      <!-- Config CREATION -->
+      <tr *ngIf="creatingConfigMode">
+        <td><input type="text" class="form-control"
+                   [(ngModel)]="tempConfigObject.name" placeholder="Config Name">
+        </td>
+        <td><input type="text" class="form-control"
+                   [(ngModel)]="tempConfigObject.key" placeholder="Crowdflower API-Key">
+        </td>
+        <td>{{tempConfigObject.updatedAt | date:'short'}}</td>
+        <td>
+          <button *ngIf="creatingConfigMode" (click)="saveConfig()">
+            <fa name="check"></fa>
+          </button>
+          <button *ngIf="creatingConfigMode" (click)="abort()">
+            <fa name="bolt"></fa>
+          </button>
+        </td>
+      </tr>
+
+      <!-- Config EDITING -->
+      <tr *ngFor="let config of configs">
+        <td *ngIf="editingThisConfig(config._id)">
+          <input type="text" class="form-control"
+                 [(ngModel)]="config.name">
+        </td>
+        <td *ngIf="editingThisConfig(config._id)">
+          <input type="text" class="form-control"
+                 [(ngModel)]="config.key">
+        </td>
+        <td *ngIf="editingThisConfig(config._id)">{{config.updatedAt | date:'short'}}</td>
+        <!-- Config PRESENTATION -->
+        <td *ngIf="!editingThisConfig(config._id)">{{config.name}}</td>
+        <td *ngIf="!editingThisConfig(config._id)">{{config.key}}</td>
+        <td *ngIf="!editingThisConfig(config._id)">{{config.updatedAt | date:'short'}}</td>
+        <td>
+          <button *ngIf="!editingThisConfig(config._id)" (click)="editConfig(config._id)">
+            <fa name="pencil"></fa>
+          </button>
+          <button *ngIf="editingThisConfig(config._id)" (click)="updateConfig(config._id, config)">
+            <fa name="check"></fa>
+          </button>
+          <button (click)="deleteConfig(config._id)">
+            <fa name="trash"></fa>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>
+<br><br>

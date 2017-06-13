@@ -18,6 +18,7 @@ export class BlockComponent {
   subscription: Subscription;
   creatingBlockMode = false;
   blocks: Array<object>;
+  showCategory: string;
   blockInProgress = [];
   tempBlockObject = {
     knowledgeId: null,
@@ -194,13 +195,10 @@ export class BlockComponent {
   }
 
   updateCategories(knowledge) {
-    console.log('update cat');
-    console.log(knowledge.children.length);
     const numCats = knowledge.children.length;
     this.categories = [];
     for (let i = 0; i < numCats; i++) {
       this.categories.push(knowledge.children[i].name);
     }
-    console.log(this.categories);
   }
 }
