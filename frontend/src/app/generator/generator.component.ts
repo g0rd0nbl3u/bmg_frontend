@@ -174,6 +174,31 @@ export class GeneratorComponent {
     }
     console.log(bmTemplate);
 
+    for (let i = 0; i < bmTemplate.length; i++) {
+      const key = Object.keys(bmTemplate[i])[0];
+      const groupArray = bmTemplate[i][key];
+      // console.log(groupArray);
+      const groupKeysPerCategory = Object.keys(groupArray);
+      const numGroupsPerCategory = groupKeysPerCategory.length;
+      let numGroupsToPick
+      if (numGroupsPerCategory === 0) {
+        numGroupsToPick = 0;
+      } else {
+        numGroupsToPick = this.getRandomInt(1, numGroupsPerCategory);
+      }
+
+      const usedGroups = [];
+      for (let g = 0; g < numGroupsToPick; g++) {
+        let whichGroupToPick = this.getRandomInt(0, numGroupsPerCategory - 1);
+        while (usedGroups.indexOf(whichGroupToPick) !== -1) {
+          whichGroupToPick = this.getRandomInt(0, numGroupsPerCategory - 1);
+        }
+        console.log('Will pick group number: ' + whichGroupToPick);
+        usedGroups.push(whichGroupToPick);
+      }
+      console.log(groupKeysPerCategory, 'Will pick this many: ' + numGroupsToPick);
+    }
+
     for (let g = 0; g < categories.length; g++) {
       bm = bm + '<tr><td>' + categories[g] + '</td><td>'
       for (let h = 0; h < blocks.length; h++) {
