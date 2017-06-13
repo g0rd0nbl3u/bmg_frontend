@@ -176,6 +176,9 @@ export class GeneratorComponent {
 
     for (let i = 0; i < bmTemplate.length; i++) {
       const key = Object.keys(bmTemplate[i])[0];
+      console.log(key);
+      // Start Row for Category
+      bm = bm + '<tr><td>' + key + '</td><td>';
       const groupArray = bmTemplate[i][key];
       // console.log(groupArray);
       const groupKeysPerCategory = Object.keys(groupArray);
@@ -193,13 +196,31 @@ export class GeneratorComponent {
         while (usedGroups.indexOf(whichGroupToPick) !== -1) {
           whichGroupToPick = this.getRandomInt(0, numGroupsPerCategory - 1);
         }
-        console.log('Will pick group number: ' + whichGroupToPick);
         usedGroups.push(whichGroupToPick);
       }
-      console.log(groupKeysPerCategory, 'Will pick this many: ' + numGroupsToPick);
+      // Now generate Blocks for used Groups
+
+      for (let g = 0; g < usedGroups.length; g++) {
+        console.log('For ' + key + ' will be using ');
+        console.log(groupKeysPerCategory[usedGroups[g]]);
+
+        const blocksInGroup = groupArray[groupKeysPerCategory[usedGroups[g]]].length;
+        const chosenBlockIndex = this.getRandomInt(0, blocksInGroup - 1);
+        console.log('This Block:', groupArray[groupKeysPerCategory[usedGroups[g]]][chosenBlockIndex]);
+        const chosenBlockId = groupArray[groupKeysPerCategory[usedGroups[g]]][chosenBlockIndex];
+        let blockToResolve;
+        // Find Block in blocks
+        for (let h = 0; h < blocks.length; h++) {
+          if (blocks[h]._id === chosenBlockId) {
+            blockToResolve = blocks[h];
+          }
+        }
+        bm = bm + this.resolveBlock(blockToResolve, product) + ' ';
+      }
+      bm = bm + '</td></tr>';
     }
 
-    for (let g = 0; g < categories.length; g++) {
+    /*for (let g = 0; g < categories.length; g++) {
       bm = bm + '<tr><td>' + categories[g] + '</td><td>'
       for (let h = 0; h < blocks.length; h++) {
         if (blocks[h].category === categories[g]) {
@@ -208,6 +229,7 @@ export class GeneratorComponent {
       }
       bm = bm + '</td></tr>';
     }
+    */
     bm = bm + '</table>';
     this.bmArray.push(bm);
   }
