@@ -1,0 +1,4 @@
+<input [accept]="accept" type="file" (change)="onNativeInputFileSelect($event)" #inputFile hidden/>
+<button class="btn btn-sm btn-outline-success" type="button" (click)="selectFile()">
+  <span>{{title}}</span>
+</button>

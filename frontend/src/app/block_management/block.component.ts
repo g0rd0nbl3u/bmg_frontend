@@ -55,6 +55,11 @@ export class BlockComponent {
       product => {
         this.product = product;
       });
+    this.subscription = appCommunicationService.dbChangeAnnounced$.subscribe(
+      change => {
+        this.syncBlocks();
+      }
+    );
   }
 
   newBlock() {

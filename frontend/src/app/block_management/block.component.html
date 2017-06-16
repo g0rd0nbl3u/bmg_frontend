@@ -49,7 +49,8 @@
             *ngFor="let k of tempBlockObject.knowledgeholder"
             class="knowledgeSpan">
             <p style="display:inline">{{k.name}}</p>
-            <select style="display: inline; width: 60px" class="form-control form-control-sm" [(ngModel)]="k.depth">
+            <select style="display:inline-block; width: 60px" class="form-control form-control-sm"
+                    [(ngModel)]="k.depth">
               <option>1</option>
               <option>2</option>
               <option>3</option>

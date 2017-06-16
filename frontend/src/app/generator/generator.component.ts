@@ -62,6 +62,7 @@ export class GeneratorComponent {
   }
 
   syncBlocks() {
+    console.log('Generator received Block-Change-Announcement');
     this.blockService
       .getBlocksForKnowledge(this.knowledgeId)
       .then(blocks => {
@@ -172,11 +173,9 @@ export class GeneratorComponent {
       }
       bmTemplate.push(obj);
     }
-    console.log(bmTemplate);
 
     for (let i = 0; i < bmTemplate.length; i++) {
       const key = Object.keys(bmTemplate[i])[0];
-      console.log(key);
       // Start Row for Category
       bm = bm + '<tr><td>' + key + '</td><td>';
       const groupArray = bmTemplate[i][key];
@@ -201,12 +200,8 @@ export class GeneratorComponent {
       // Now generate Blocks for used Groups
 
       for (let g = 0; g < usedGroups.length; g++) {
-        console.log('For ' + key + ' will be using ');
-        console.log(groupKeysPerCategory[usedGroups[g]]);
-
         const blocksInGroup = groupArray[groupKeysPerCategory[usedGroups[g]]].length;
         const chosenBlockIndex = this.getRandomInt(0, blocksInGroup - 1);
-        console.log('This Block:', groupArray[groupKeysPerCategory[usedGroups[g]]][chosenBlockIndex]);
         const chosenBlockId = groupArray[groupKeysPerCategory[usedGroups[g]]][chosenBlockIndex];
         let blockToResolve;
         // Find Block in blocks
