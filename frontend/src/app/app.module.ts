@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
-import {Angular2FontAwesomeModule} from 'angular2-font-awesome/angular2-font-awesome';
+import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 
 import {AppComponent} from './app.component';
 import {TreeModule} from 'angular-tree-component';
@@ -38,7 +38,7 @@ import {CfConfigService} from './shared/service/cf_config.service';
     FormsModule,
     HttpModule,
     TreeModule,
-    Angular2FontAwesomeModule,
+    AngularFontAwesomeModule,
     InputFileModule,
     SortablejsModule
   ],
