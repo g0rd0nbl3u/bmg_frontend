@@ -1,8 +1,11 @@
 <div *ngIf="blocks">
   <h4>Generator</h4>
   <h5>Example BM</h5>
-  <button (click)="generateBM(blocks, knowledge, product, categories)">
-    Generate BM
+  <div class="checkbox">
+    <label><input type="checkbox" value="false" [(ngModel)]="shuffleCategories">Shuffle Categories</label>
+  </div>
+  <button (click)="generateBM(blocks, knowledge, product, categories, shuffleCategories)">
+    Generate One for Testing
   </button>
   <div class="container-fluid">
     <div class="row" *ngFor="let bm of bmArray">
@@ -69,6 +72,9 @@
           </button>
           <button (click)="deleteConfig(config._id)">
             <fa name="trash"></fa>
+          </button>
+          <button title="Use this Config" *ngIf="!editingThisConfig(config._id)" (click)="useConfig(config)">
+            <fa name="dot-circle-o"></fa>
           </button>
         </td>
       </tr>

@@ -6,7 +6,7 @@ import {AppCommunicationService} from "./appCommunication.service";
 @Injectable()
 export class KnowledgeService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private knowledgeUrl = 'http://localhost:3000/knowledge';  // URL to web api
+  private knowledgeUrl = 'http://bmg_backend:3000/knowledge';  // URL to web api
   constructor(private http: Http,
               private appCommunicationService: AppCommunicationService) {
   }

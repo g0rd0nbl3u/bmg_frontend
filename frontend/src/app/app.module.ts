@@ -21,6 +21,7 @@ import {BlockService} from './shared/service/block.service';
 import {SortablejsModule} from 'angular-sortablejs';
 import {GeneratorComponent} from './generator/generator.component';
 import {CfConfigService} from './shared/service/cf_config.service';
+import {CFJobService} from './shared/service/cf_jobservice';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import {CfConfigService} from './shared/service/cf_config.service';
     InputFileModule,
     SortablejsModule
   ],
-  providers: [KnowledgeService, ProductService, BlockService, AppCommunicationService, CfConfigService],
+  providers: [KnowledgeService, ProductService, BlockService, AppCommunicationService, CfConfigService, CFJobService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

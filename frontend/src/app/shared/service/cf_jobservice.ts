@@ -1,18 +1,23 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http} from '@angular/http';
+import {Headers, Http, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {AppCommunicationService} from './appCommunication.service';
 
 @Injectable()
-export class CfConfigService {
+export class CFJobService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private blockUrl = 'http://bmg_backend:3000/cf_config';  // URL to web api
+  private cfUrl = 'https://api.crowdflower.com/v1';  // URL to web api
   constructor(private http: Http,
               private appCommunicationService: AppCommunicationService) {
   }
 
-  getAll(): Promise<Object[]> {
-    return this.http.get(`${this.blockUrl}/getAll`)
+  getAllJobs(key): Promise<Object[]> {
+    const headers = new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'text/csv'
+    });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.get(`${this.cfUrl}/jobs.json?key{` + key + `}`, options)
       .toPromise()
       .then(response => {
         return response.json();
@@ -20,8 +25,9 @@ export class CfConfigService {
       .catch(this.handleError);
   }
 
-  get(id: string): Promise<Object> {
-    const url = `${this.blockUrl}/get/${id}`;
+  /*
+  getBlock(id: string): Promise<Object> {
+    const url = `${this.cfUrl}/get/${id}`;
     return this.http.get(url)
       .toPromise()
       .then(response => {
@@ -31,8 +37,22 @@ export class CfConfigService {
       .catch(this.handleError);
   }
 
-  deleteConfig(id: number): Promise<void> {
-    const url = `${this.blockUrl}/delete/${id}`;
+  getBlocksForKnowledge(id: string): Promise<Array<Object>> {
+    const url = `${this.cfUrl}/getForKnowledge/${id}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => {
+        // console.log(response.json());
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+
+
+
+
+  delete(id: number): Promise<void> {
+    const url = `${this.cfUrl}/delete/${id}`;
 
     return this.http.delete(url, {headers: this.headers})
       .toPromise()
@@ -41,10 +61,11 @@ export class CfConfigService {
         return null;
       })
       .catch(this.handleError);
+
   }
 
   add(block: Object): Promise<Object> {
-    const url = `${this.blockUrl}/add`;
+    const url = `${this.cfUrl}/add`;
     return this.http
       .post(url, JSON.stringify(block), {headers: this.headers})
       .toPromise()
@@ -53,7 +74,7 @@ export class CfConfigService {
   }
 
   update(id: string, block: Object): Promise<Object> {
-    const url = `${this.blockUrl}/update/${id}`;
+    const url = `${this.cfUrl}/update/${id}`;
     return this.http
       .put(url, JSON.stringify(block), {headers: this.headers})
       .toPromise()
@@ -63,6 +84,7 @@ export class CfConfigService {
       })
       .catch(this.handleError);
   }
+  */
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only

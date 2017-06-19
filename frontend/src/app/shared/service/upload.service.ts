@@ -8,7 +8,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class UploadService {
 
-  private apiUrl = 'http://localhost:3000/';
+  private apiUrl = 'http://bmg_backend:3000/';
 
   constructor(private http: Http) {
   }

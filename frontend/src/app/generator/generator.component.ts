@@ -3,6 +3,7 @@ import {AppCommunicationService} from '../shared/service/appCommunication.servic
 import {Subscription} from 'rxjs/Subscription';
 import {BlockService} from '../shared/service/block.service';
 import {CfConfigService} from '../shared/service/cf_config.service';
+import {CFJobService} from "../shared/service/cf_jobservice";
 
 @Component({
   selector: 'app-generator-view',
@@ -20,6 +21,8 @@ export class GeneratorComponent {
   subscription: Subscription;
   configs: Array<object>;
   creatingConfigMode = false;
+  allJobs = null;
+
   tempConfigObject = {
     name: null,
     key: null,
@@ -28,12 +31,12 @@ export class GeneratorComponent {
   configInProgress = null;
   configChosen = false;
   chosenConfig = null;
-  mockBlock = null;
   bmArray = [];
 
   constructor(private appCommunicationService: AppCommunicationService,
               private blockService: BlockService,
-              private cf_configService: CfConfigService) {
+              private cf_configService: CfConfigService,
+              private cfJobService: CFJobService) {
     this.subscription = appCommunicationService.knowledgeChosenAnnounced$.subscribe(
       id => {
         this.knowledgeId = id;
@@ -143,7 +146,7 @@ export class GeneratorComponent {
     this.creatingConfigMode = false;
   }
 
-  generateBM(blocks, knowledge, product, categories) {
+  generateBM(blocks, knowledge, product, categories, shuffleCategories) {
     if (!this.product) {
       alert('A Product must be chosen.');
       return;
@@ -167,11 +170,15 @@ export class GeneratorComponent {
             obj[categories[g]][blocks[h].group] = [];
           }
           obj[categories[g]][blocks[h].group].push(blocks[h]._id);
-          // obj[categories[g]][newLength - 1].push(blocks[h]._id)
-          // obj[categories[g]][blocks[h].group].push(blocks[h]._id);
         }
       }
       bmTemplate.push(obj);
+    }
+    console.log("Shuffle on?:", shuffleCategories);
+    console.log("before shuffle", bmTemplate);
+    if (shuffleCategories === true) {
+      this.shuffle(bmTemplate);
+      console.log("Shuffled Categories:", bmTemplate);
     }
 
     for (let i = 0; i < bmTemplate.length; i++) {
@@ -216,15 +223,15 @@ export class GeneratorComponent {
     }
 
     /*for (let g = 0; g < categories.length; g++) {
-      bm = bm + '<tr><td>' + categories[g] + '</td><td>'
-      for (let h = 0; h < blocks.length; h++) {
-        if (blocks[h].category === categories[g]) {
-          bm = bm + this.resolveBlock(blocks[h], product) + ' ';
-        }
-      }
-      bm = bm + '</td></tr>';
-    }
-    */
+     bm = bm + '<tr><td>' + categories[g] + '</td><td>'
+     for (let h = 0; h < blocks.length; h++) {
+     if (blocks[h].category === categories[g]) {
+     bm = bm + this.resolveBlock(blocks[h], product) + ' ';
+     }
+     }
+     bm = bm + '</td></tr>';
+     }
+     */
     bm = bm + '</table>';
     this.bmArray.push(bm);
   }
@@ -299,6 +306,24 @@ export class GeneratorComponent {
     this.categories = [];
     for (let i = 0; i < numCats; i++) {
       this.categories.push(knowledge.children[i].name);
+    }
+  }
+
+  useConfig(config) {
+    this.chosenConfig = config;
+    console.log('Chose config is: ', config);
+    this.allJobs = this.cfJobService.getAllJobs(config.key);
+    console.log('Jobs: ', this.allJobs);
+  }
+
+  /**
+   * Shuffles array in place. ES6 version
+   * @param {Array} a items The array containing the items.
+   */
+  shuffle(a) {
+    for (let i = a.length; i; i--) {
+      let j = Math.floor(Math.random() * i);
+      [a[i - 1], a[j]] = [a[j], a[i - 1]];
     }
   }
 }

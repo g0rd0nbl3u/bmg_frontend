@@ -6,7 +6,7 @@ import {AppCommunicationService} from "./appCommunication.service";
 @Injectable()
 export class ProductService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private productUrl = 'http://localhost:3000/product';  // URL to web api
+  private productUrl = 'http://bmg_backend:3000/product';  // URL to web api
   constructor(private http: Http,
               private appCommunicationService: AppCommunicationService) {
   }

@@ -6,7 +6,7 @@ import {AppCommunicationService} from './appCommunication.service';
 @Injectable()
 export class BlockService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private blockUrl = 'http://localhost:3000/block';  // URL to web api
+  private blockUrl = 'http://bmg_backend:3000/block';  // URL to web api
   constructor(private http: Http,
               private appCommunicationService: AppCommunicationService) {
   }
