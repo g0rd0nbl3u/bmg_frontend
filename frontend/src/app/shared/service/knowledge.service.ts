@@ -2,11 +2,12 @@ import {Injectable} from '@angular/core';
 import {Headers, Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {AppCommunicationService} from "./appCommunication.service";
+import {ip} from './serveraddress';
 
 @Injectable()
 export class KnowledgeService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private knowledgeUrl = 'http://bmg_backend:3000/knowledge';  // URL to web api
+  private knowledgeUrl = 'http://' + ip + ':3000/knowledge';  // URL to web api
   constructor(private http: Http,
               private appCommunicationService: AppCommunicationService) {
   }

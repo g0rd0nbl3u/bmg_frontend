@@ -4,11 +4,12 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import {ip} from './serveraddress';
 
 @Injectable()
 export class UploadService {
 
-  private apiUrl = 'http://bmg_backend:3000/';
+  private apiUrl = 'http://' + ip + ':3000/';
 
   constructor(private http: Http) {
   }
@@ -17,7 +18,6 @@ export class UploadService {
     const formData: FormData = new FormData();
     formData.append('datei', file, file.name);
     const headers = new Headers();
-    //headers.append('Content-Type', 'multipart/form-data');
     headers.append('Accept', 'application/json');
     const options = new RequestOptions({headers: headers});
     return this.http.post(this.apiUrl + dest, formData, options)

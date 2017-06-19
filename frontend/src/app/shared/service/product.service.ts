@@ -2,11 +2,12 @@ import {Injectable} from '@angular/core';
 import {Headers, Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {AppCommunicationService} from "./appCommunication.service";
+import {ip} from './serveraddress';
 
 @Injectable()
 export class ProductService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private productUrl = 'http://bmg_backend:3000/product';  // URL to web api
+  private productUrl = 'http://' + ip + ':3000/product';  // URL to web api
   constructor(private http: Http,
               private appCommunicationService: AppCommunicationService) {
   }
